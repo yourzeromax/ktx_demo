@@ -1,6 +1,9 @@
 # ktx_demo
 > android_ktx Demo.
 
+## 参考网址
+> https://developer.android.google.cn/jetpack/androidx/releases/lifecycle?hl=en
+
 ## 依赖
 ```kotlin
 
