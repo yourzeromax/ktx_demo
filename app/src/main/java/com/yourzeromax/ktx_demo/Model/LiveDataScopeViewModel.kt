@@ -2,15 +2,28 @@ package com.yourzeromax.ktx_demo.Model
 
 import androidx.lifecycle.*
 import com.yourzeromax.ktx_demo.data.User
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 //PT5
-class LiveDataScopeViewModel : ViewModel() {
+class LiveDataScopeViewModel : ViewModel(),CoroutineScope {
     /*********************Old**********************/
-    private val liveDataOld = MutableLiveData<String>()
+    private val job = SupervisorJob()
+    override val coroutineContext: CoroutineContext = job+ Dispatchers.Main
 
-    fun initValue(name: String) {
-        liveDataOld.value = name
+    val liveDataOld = MutableLiveData<String>()
+
+    //暴露给外面在初始化的时候紧接着调用
+    fun initValue() {
+        launch {
+          val name =   getData()
+            liveDataOld.value =name
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        coroutineContext.cancel()
     }
 
     /*********************New**********************/
